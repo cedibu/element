@@ -22,8 +22,8 @@
             class="el-message-box__headerbtn"
             aria-label="Close"
             v-if="showClose"
-            @click="handleAction('cancel')"
-            @keydown.enter="handleAction('cancel')">
+            @click="handleAction('abort')"
+            @keydown.enter="handleAction('abort')">
             <i class="el-message-box__close el-icon-close"></i>
           </button>
         </div>
@@ -165,9 +165,11 @@
         }
         this.opened = false;
         this.doAfterClose();
-        setTimeout(() => {
-          if (this.action) this.callback(this.action, this);
-        });
+        if (this.action !== 'abort') {
+          setTimeout(() => {
+            if (this.action) this.callback(this.action, this);
+          });
+        }
       },
 
       handleWrapperClick() {
